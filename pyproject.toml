@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arb-platform"
+version = "0.1.0"
+description = "Extensible realtime odds ingestion and cross-bookmaker arbitrage platform"
+requires-python = ">=3.11"
+dependencies = [
+    "websockets>=16,<17",
+]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.115", "uvicorn>=0.34"]
+collector = ["playwright>=1.50"]
+test = ["pytest>=8"]
+postgres = ["psycopg[binary]>=3.2"]
+all = ["playwright>=1.50", "pytest>=8", "fastapi>=0.115", "uvicorn>=0.34", "psycopg[binary]>=3.2"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["app*", "config*", "models*", "sources*", "normalization*", "storage*", "realtime*", "detection*", "tools*"]
