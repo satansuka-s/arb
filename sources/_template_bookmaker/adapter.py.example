@@ -1,0 +1,30 @@
+from models.domain import SourceEvent
+from sources.base import BookmakerWSAdapter
+
+
+class NewBookmakerAdapter(BookmakerWSAdapter):
+    source_name = "newbookmaker"
+    display_name = "New Bookmaker"
+    supported_sports = ("dota",)
+    ws_url = "wss://example.com/live"
+
+    def decode_frame(self, payload: bytes) -> list[SourceEvent]:
+        # Parse source protocol here and return SourceEvent objects.
+        raise NotImplementedError
+
+    async def refresh_subscriptions(self, sport: str) -> bool:
+        # Return True after writing data/subscriptions/newbookmaker/<sport>.txt
+        return False
+
+    def subscription_age(self, sport: str) -> float:
+        raise NotImplementedError
+
+    def has_subscriptions(self, sports: list[str]) -> bool:
+        raise NotImplementedError
+
+    def load_subscriptions(self, sports: list[str]) -> list[bytes]:
+        raise NotImplementedError
+
+
+def build_adapter():
+    return NewBookmakerAdapter()
